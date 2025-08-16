@@ -42,9 +42,7 @@ export function createAgent(
   token: string
 ) {
   elizaLogger.success(
-    elizaLogger.successesTitle,
-    "Creating runtime for character",
-    character.name,
+    `Creating runtime for character ${character.name}`
   );
 
   nodePlugin ??= createNodePlugin();
@@ -99,8 +97,7 @@ async function startAgent(character: Character, directClient: DirectClient) {
     return runtime;
   } catch (error) {
     elizaLogger.error(
-      `Error starting agent for character ${character.name}:`,
-      error,
+      `Error starting agent for character ${character.name}:`
     );
     console.error(error);
     throw error;
@@ -144,7 +141,8 @@ const startAgents = async () => {
       await startAgent(character, directClient as DirectClient);
     }
   } catch (error) {
-    elizaLogger.error("Error starting agents:", error);
+    elizaLogger.error("Error starting agents:");
+    console.error(error);
   }
 
   while (!(await checkPortAvailable(serverPort))) {
@@ -173,6 +171,7 @@ const startAgents = async () => {
 };
 
 startAgents().catch((error) => {
-  elizaLogger.error("Unhandled error in startAgents:", error);
+  elizaLogger.error("Unhandled error in startAgents:");
+  console.error(error);
   process.exit(1);
 });
